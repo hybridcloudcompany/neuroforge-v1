@@ -1,0 +1,44 @@
+# Configuración compartida por todos los agentes SDD (Spec-Driven Development).
+# Los agentes la leen al inicio de cada ejecución. Ajusta los valores a tu sitio.
+
+atlassian:
+  # Hostname o cloudId del sitio. Si se deja vacío el agente usa getAccessibleAtlassianResources.
+  site: "bcp-neuroforge.atlassian.net"
+  cloud_id: "9f72c26e-4d0a-4b71-9d0d-0a760341eb6b"
+  confluence:
+    # Espacios donde buscar documentación de componentes, aprovisionamiento, accesos y modelos operativos.
+    # El espacio "Neuro Forge" tiene key DDS (su URL usa /spaces/NEUR).
+    spaces: ["DDS"]
+    # Pistas para el análisis de dependencias (se combinan con el nombre del componente en CQL).
+    dependency_keywords:
+      aprovisionamiento: ["aprovisionamiento", "provisioning", "alta de infraestructura", "solicitud de recursos"]
+      accesos: ["accesos", "IAM", "roles", "permisos", "VPN", "firewall", "secretos", "onboarding técnico"]
+      modelo_operativo: ["modelo operativo", "runbook", "soporte", "SLO", "on-call", "gestión de cambios", "RACI"]
+  jira:
+    # IDs de los campos Jira dedicados; Especificación usa el textarea (no el campo de texto corto duplicado).
+    fields:
+      specification: "customfield_10049"
+      dependencies: "customfield_10050"
+      acceptance_criteria: "customfield_10051"
+    # Proyecto donde se crean las issues de dependencia si el humano no indica otro.
+    default_dependency_project: "NEUR"
+    # Los tipos de issue de este sitio están en español: Epic, Subtask, Tarea, Historia, Feature, Error.
+    dependency_issue_type: "Tarea"
+    # Se enlaza con createIssueLink: inwardIssue = issue de dependencia (bloquea), outwardIssue = issue origen (bloqueada).
+    # Tipos disponibles: Blocks, Cloners, Duplicate, Relates.
+    dependency_link_type: "Blocks"
+    # Transiciones de estado Jira opcionales por fase (vacío = no transicionar, solo cambiar labels).
+    transitions:
+      awaiting-answers: ""
+      spec-approved: ""
+      completed: ""
+
+workflow:
+  label_prefix: "sdd-"
+  # Carpeta OpenSpec donde se escriben los cambios.
+  openspec_dir: "openspec"
+  # Idioma de specs y comentarios.
+  language: "es"
+  # Los requisitos OpenSpec mantienen las palabras clave normativas SHALL/MUST en inglés.
+  # Usuarios autorizados a mover los "gates" humanos (vacío = cualquier humano; el agente nunca los mueve).
+  gate_users: []
